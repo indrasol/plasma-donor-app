@@ -1,0 +1,199 @@
+<div class="row">
+
+	<div class="col-12">
+		<div class="row page-header">
+			<div class="col-sm-8">
+				<div class="page-title">{{pageTitle}}</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="page-actions">
+					<button class="btn btn-sm btn-success mx-2" *ngIf="!isEdit" (click)="refresh()" type="button"> <i
+							class="bi bi-arrow-counterclockwise"></i> </button>
+					<button class="btn btn-sm btn-outline-primary pd-y-5" (click)="createNew()" *ngIf="!isEdit"
+						type="button"> <i class="bi bi-plus"></i> New </button>
+					<button class="btn btn-sm btn-primary" (click)="cancelForm()" *ngIf="isEdit" type="button"> <i
+							class="bi bi-arrow-left"></i> Back </button>
+					<button class="btn btn-sm btn-primary" (click)="cancelForm()" *ngIf="isRemove" type="button"> <i
+							class="bi bi-arrow-left"></i> Back </button>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-12">
+		<div class="card list-card" style="height: calc(100vh - 130px);" [ngClass]="isEdit? 'hide': ''">
+			<div class="card-body p-0 h-100">
+				<ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-balham" [rowData]="gridList"
+					[rowHeight]="40" [columnDefs]="gridColDefs" [pagination]="true" [paginationPageSize]="20"
+					[cacheBlockSize]="100" [maxBlocksInCache]="10" [suppressRowClickSelection]="true"
+					[components]="frameworkComponents" (gridReady)="onGridReady($event)">
+				</ag-grid-angular>
+			</div>
+		</div>
+
+		<div class="card form-card" [ngClass]="isEdit? '': 'hide'">
+			<div class="card-body">
+				<div class="col-12 p-0" [formGroup]="infoForm">
+					<input type="hidden" readonly="readonly" class="form-control" formControlName="id">
+					<div class="row g-3">
+						<div class="col-sm-6">
+							<label class="form-label"> First Name <span class="text-danger">*</span> </label>
+							<div class="input-group">
+								<input type="text" class="form-control" formControlName="firstName" ngModel
+									pattern="[A-Za-z]+" required>
+								<div *ngIf="submitted && f['firstName'].errors" class="form-error">
+									<div *ngIf="f['firstName'].errors.required">First Name is required</div>
+									<div *ngIf="f['firstName'].errors.minlength">
+										First Name must be at least 3 characters
+									</div>
+									<div *ngIf="f['firstName'].errors.maxlength">
+										First Name must not exceed 15 characters
+									</div>
+									<div *ngIf="f['firstName'].errors.pattern">First Name can only contain alphabetic
+										characters.</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label"> Last Name </label>
+							<div class="input-group">
+								<input type="text" class="form-control" formControlName="lastName">
+								<div *ngIf="submitted && f['lastName'].errors" class="form-error">
+ 
+									<div *ngIf="f['lastName'].errors.required">Last Name is required</div>
+									<div *ngIf="f['lastName'].errors.pattern">Last Name can only contain alphabetic characters.</div> 
+ 
+									<div *ngIf="f['lastName'].errors.minlength">
+										Last Name must be at least 1 character
+									</div>
+									<div *ngIf="f['lastName'].errors.maxlength">
+										Last Name must not exceed 15 characters
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label"> Email Id <span class="text-danger">*</span></label>
+							<div class="input-group">
+								<input type="text" class="form-control" formControlName="email">
+								<div *ngIf="submitted && f['email'].errors" class="form-error">
+									<div *ngIf="f['email'].errors.required">Email is required</div>
+
+									<div *ngIf="f['email'].errors.email">Please enter a valid email address.</div>
+									<div *ngIf="f['email'].errors.minlength">
+										Email must be at least 3 characters
+									</div>
+									<div *ngIf="f['email'].errors.maxlength">
+										Email must not exceed 32 characters
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<ng-template #pwdTipContent>
+								<ul>
+									<li>At least 8 characters in length</li>
+									<li>Lowercase letters</li>
+									<li>Uppercase letters</li>
+									<li>Numbers</li>
+									<li>Special characters</li>
+								</ul>
+							</ng-template>
+							<label class="form-label"> Password </label>
+							<div class="input-group">
+								<input type="password" class="form-control" formControlName="password"
+									[ngbTooltip]="pwdTipContent">
+								<div *ngIf="submitted && f['password'].errors" class="form-error">
+									<div *ngIf="f['password'].errors.required">Password is required</div>
+									<div *ngIf="f['password'].errors.pattern">
+										Password must be valid
+									</div>
+									<div *ngIf="f['password'].errors.minlength">
+										Password must be at least 6 characters
+									</div>
+									<div *ngIf="f['password'].errors.maxlength">
+										Password must not exceed 18 characters
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label"> Phone Number <span class="text-danger">*</span></label>
+							<div class="input-group">
+								<input type="text" class="form-control" formControlName="phoneNumber">
+								<div *ngIf="submitted && f['phoneNumber'].errors" class="form-error">
+									<div *ngIf="f['phoneNumber'].errors.required">Phone Number is required</div>
+									<div *ngIf="f['phoneNumber'].errors.pattern">
+										Phone Number must be valid
+									</div>
+									<div *ngIf="f['phoneNumber'].errors.minlength">
+										Phone Number must be at least 9 characters
+									</div>
+									<div *ngIf="f['phoneNumber'].errors.maxlength">
+										Phone Number must not exceed 12 characters
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<label class="form-label"> Company Location <span class="text-danger">*</span> </label>
+							<div class="input-group">
+								<ng-select [items]="companyLocations" bindLabel="fullAddress" bindValue="id"
+									[clearable]="false" formControlName="companyLocationId">
+								</ng-select>
+								<div *ngIf="submitted && f['companyLocationId'].errors" class="form-error">
+									<div *ngIf="f['companyLocationId'].errors.required">Location is required</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<label class="form-label">Role <span class="text-danger">*</span></label>
+							<div class="input-group">
+								<ng-select [items]="roles" bindLabel="role" bindValue="id" [clearable]="false"
+									formControlName="roleId">
+								</ng-select>
+								<div *ngIf="submitted && f['roleId'].errors" class="form-error">
+									<div *ngIf="f['roleId'].errors.required">Role is required</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-sm-6">
+							<label class="form-label"> Status <span class="text-danger">*</span></label>
+							<div class="input-group">
+								<select class="form-control" formControlName="status">
+									<option value="1"> Active </option>
+									<option value="0"> Inactive </option>
+								</select>
+								<div *ngIf="submitted && f['status'].errors" class="form-error">
+									<div *ngIf="f['status'].errors.required">Status is required</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+
+
+
+			</div>
+			<div class="card-footer">
+				<div class="card-actions">
+					<button class="btn btn-sm btn-danger card-action" (click)="cancelForm()" type="button"><i
+							class="fa fa-times"></i> <span class="mg-l-4"> Cancel </span> </button>
+					<button class="btn btn-sm btn-primary card-action" (click)="saveForm()" type="button"><i
+							class="fa fa-save"></i> <span class="mg-l-4"> Save </span> </button>
+				</div>
+			</div>
+			<div class="loading" *appSpinner="loading; message: ''"></div>
+		</div>
+
+	</div>
+</div>

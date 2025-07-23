@@ -1,0 +1,70 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 pb-4" style="border-bottom:1px solid #bbb;">
+        <div class="row" [formGroup]="searchForm">
+          <div class="col-sm-12 col-lg-6 mb-3">
+            <label class="form-label"> Home Center </label>
+            <div class="input-group">
+              <ng-select [items]="homeCenters" bindLabel="fullAddress" bindValue="id" [clearable]="true"
+                placeholder="Select a Home Center" (change)="homeCenterChange($event)" formControlName="homeCenterId">
+              </ng-select>
+            </div>
+          </div>
+          
+          <div class="col-sm-6 col-lg-6 mb-3">
+            <label class="form-label"> Relationship</label>
+            <div class="input-group">
+              <ng-select [items]="relationships" bindLabel="name" bindValue="id" [clearable]="true"
+                placeholder="Select a Relationship" formControlName="relationshipId">
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-6 mb-3">
+            <label class="form-label"> Influencer</label>
+            <div class="input-group">
+              <ng-select [items]="influencers" bindLabel="name" bindValue="id" [clearable]="true"
+                placeholder="Select an Influencer" formControlName="influencedById">
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3  mb-3">
+            <label class="form-label"> Gender </label>
+            <div class="input-group">
+              <select    class="form-control" formControlName="gender">
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+                <option value="n">Transgender</option>
+                <option value="n">Neutral</option>
+                <option value="n">Others</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-3  mb-3">
+            <label class="form-label"> Age Group </label>
+            <div class="input-group">
+              <select    class="form-control" formControlName="ageGroup">
+                <option value="20"> 0 - 20 years</option>
+                <option value="30">21 - 30 years</option>
+                <option value="40">31 - 40 years</option>
+                <option value="60">41 - 60 years</option>
+                <option value="80">61 - 80 years</option>
+                <option value="81">81+ years</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-2 mb-3 d-flex align-items-end">
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="loadTreeData()"> Search </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12" style="position: relative;">
+        <d3-tree [treeData]="treeData" [max-height]="900" [aspect-ratio]="'5:3'"></d3-tree>
+        <div class="loading" *appSpinner="loading; message: ''"></div>
+      </div>
+    </div>
+  </div>
+</div>

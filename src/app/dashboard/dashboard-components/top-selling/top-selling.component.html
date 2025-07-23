@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="card-body">
+        <!-- title -->
+                <h4 class="card-title">Top Influencers</h4>
+                <h5 class="card-subtitle">Overview of the Influencers</h5>
+            
+        <!-- title -->
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th class="text-dark font-medium fs-4">Influencer</th>
+                        <th class="text-dark font-medium fs-4">Location</th>
+                         
+                        <th class="text-dark font-medium fs-4">Inf Score</th>
+                         
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let ts of topSelling'>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span   class="rounded-circle tp-icn bg-success text-light">{{ts.icn}} </span>
+                                <div class="ms-3">
+                                    <h5 class="mb-0 font-medium">{{ts.name}}</h5>
+                                    <span class="text-muted">{{ts.email}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="fs-4">{{ts.location}}</td>
+                         
+                        
+                        <td>
+                            <h5 class="mb-0 fw-normal">{{ts.count}}</h5>
+                        </td>
+                         
+                    </tr>              
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>

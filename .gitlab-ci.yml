@@ -1,0 +1,47 @@
+# variables:
+#   API_TOKEN: $DEPLOYMENT_TOKEN
+#   APP_PATH: './src'
+#   OUTPUT_PATH: './dist/plasma-donor-app'
+
+# deploy:
+#   stage: deploy
+#   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+#   script:
+#     - echo "App deployed successfully."
+
+# Node Image for docker on which code will execute
+image: node:18.14-alpine3.16
+
+
+# This is the stages / task to perfom in jobs
+stages:
+  - build
+  - deploy
+  
+# caching for reuse
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules/
+  - dist/
+  
+# This command is run before the execution of stages    
+before_script:
+  - npm install --force
+
+# Job One for making build
+build_master: 
+  stage: build
+  script:
+  - npm run build --prod
+  only: ['master']
+
+# Job Two for deploy build to S3
+deploy_master:
+  image: python:latest  
+  stage: deploy
+  before_script:
+    - pip install awscli 
+  script:
+    - aws s3 sync ./dist/plasma-donor-app s3://nuram.xyz/ --acl=public-read --delete
+  only: ['master']

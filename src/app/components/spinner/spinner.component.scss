@@ -1,0 +1,50 @@
+.spinner-container { 
+.spinner-overlay { 
+	position:absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: #c7c4c4;
+	opacity: .3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	
+}
+.spinner-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1001;
+	flex-flow: column;
+}
+
+.spinner-icon-container {
+	display: flex;
+	justify-content: center;
+}
+
+.spinner-icon {
+	display: block;
+}
+
+.spinner-message {
+	margin-top: 10px;
+	display: block;
+	color: #000;
+	font-size: 14px;
+	font-weight: bold;
+}
+}

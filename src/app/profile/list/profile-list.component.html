@@ -1,0 +1,436 @@
+<div class="row">
+	 
+	<div class="col-12">
+		<div class="row page-header">
+			<div class="col-sm-4">
+				<div class="page-title">{{pageTitle}}</div>
+			</div>
+			<div class="col-sm-8"> 
+				<div class="page-actions">
+					
+					<button class="btn btn-sm btn-outline-primary mx-2"  *ngIf="!isEdit"   (click)="downloadTemplate()"    type="button"> <i  class="bi bi-cloud-arrow-down"></i>  Template </button>
+
+					<button class="btn btn-sm btn-outline-primary mx-2"  *ngIf="!isEdit"   (click)="importProfilesDailog()"    type="button"> <i  class="bi bi-cloud-arrow-up"></i> Upload </button>
+					
+					<button class="btn btn-sm btn-success mx-2"  *ngIf="!isEdit"   (click)="refresh()"    type="button"> <i  class="bi bi-arrow-counterclockwise"></i> </button>
+
+					<button class="btn btn-sm btn-outline-primary pd-y-5"  (click)="createNew()"  *ngIf="!isEdit" type="button"> <i  class="bi bi-plus"></i>  New </button>
+					<button class="btn btn-sm btn-primary"  (click)="cancelForm()"  *ngIf="isEdit" type="button"> <i  class="bi bi-arrow-left"></i> Back </button>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	<div class="col-12">
+		 <div class="card list-card" style="height: calc(100vh - 130px);" [ngClass]="isEdit || isImport ? 'hide': ''">
+			<div class="card-body p-0 h-100">
+				<ag-grid-angular
+				    style="width: 100%; height: 100%;"
+				    class="ag-theme-balham"
+				    [rowData]="gridList"
+				    [rowHeight]="40"
+				    [columnDefs]="gridColDefs"
+				    [pagination]="true"
+				    [paginationPageSize]="20" [cacheBlockSize]="100" [maxBlocksInCache]="10"
+				    [suppressRowClickSelection]="true"  
+					[components]="frameworkComponents"			     
+				    (gridReady)="onGridReady($event)"
+				    >
+				</ag-grid-angular>
+			</div>
+			<div *appSpinner="gridLoading; message: ''"></div>
+		  </div>
+		  
+		  <div class="card form-card" [ngClass]="isEdit? '': 'hide'">
+		  	<div class="card-body" >
+		  		 <div class="col-12 p-0 profile-form" [formGroup]="infoForm">
+			  		<input type="hidden" readonly="readonly" class="form-control" formControlName="id" >
+		  		 	<div class="row g-3">
+                        <div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> First Name </label>
+							<div class="input-group">
+									<input type="text"  class="form-control" formControlName="firstName">
+									<div *ngIf="submitted && f['firstName'].errors" class="form-error">
+										<div *ngIf="f['firstName'].errors.required">First Name is required</div>
+										<div *ngIf="f['firstName'].errors.pattern">First Name can only contain alphabetic characters.</div>
+										 
+										<div *ngIf="f['firstName'].errors.minlength">
+											First Name must be at least 3 characters
+										</div>
+										<div *ngIf="f['firstName'].errors.maxlength">
+											First Name must not exceed 15 characters
+										</div>
+									</div>
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Last Name </label>
+							<div class="input-group">
+									<input type="text"  class="form-control" formControlName="lastName">
+									<div *ngIf="submitted && f['lastName'].errors" class="form-error">
+										<div *ngIf="f['lastName'].errors.required">Last Name is required</div>
+									<div *ngIf="f['lastName'].errors.pattern">Last Name can only contain alphabetic characters.</div>
+									 
+										<div *ngIf="f['lastName'].errors.minlength">
+											Last Name must be at least 1 character
+										</div>
+										<div *ngIf="f['lastName'].errors.maxlength">
+											Last Name must not exceed 15 characters
+										</div>
+									</div>
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Email Id </label>
+							<div class="input-group">
+									<input type="text"  class="form-control" formControlName="email">
+									<div *ngIf="submitted && f['email'].errors" class="form-error">
+										<div *ngIf="f['email'].errors.required">Email is required</div>
+										<div *ngIf="f['email'].errors.email">Email is not valid</div>
+										<div *ngIf="f['email'].errors.invalidTLD">Email must end with .com or .org.</div>
+										<div *ngIf="f['email'].errors.minlength">
+											Email must be at least 3 characters
+										</div>
+										<div *ngIf="f['email'].errors.maxlength">
+											Email must not exceed 32 characters
+										</div>
+									</div>
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Gender </label>
+							<div class="input-group">
+									<select    class="form-control" formControlName="gender">
+										<option value="m">Male</option>
+										<option value="f">Female</option>
+										<option value="n">Transgender</option>
+										<option value="n">Neutral</option>
+										<option value="n">Others</option>
+									</select>
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Phone Number </label>
+							<div class="input-group">
+									<input type="text"  class="form-control" formControlName="phoneNumber" appNumericOnly required>
+									<div *ngIf="submitted && f['phoneNumber'].errors" class="form-error">
+										<div *ngIf="f['phoneNumber'].errors.required">Phone Number is required</div>
+										<div *ngIf="f['phoneNumber'].errors.pattern">
+											Phone Number must be valid
+										</div> 
+										<div *ngIf="f['phoneNumber'].errors.minlength">
+											Phone Number must be at least 9 characters
+										</div>
+										<div *ngIf="f['phoneNumber'].errors.maxlength">
+											Phone Number must not exceed 12 characters
+										</div>
+									</div>
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Date of Birth </label>
+							<div class="input-group">
+								
+								<input  type="text" ngbDatepicker #d="ngbDatepicker"     class="form-control" formControlName="dob">
+								<button class="btn btn-outline-primary bi bi-calendar" (click)="d.toggle()" type="button"></button>	 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Influenced By </label>
+							<div class="input-group">
+								<ng-select [items]="influencers"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											[multiple]="true" 
+											formControlName="influencerIds">
+								</ng-select>
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Relationship </label>
+							<div class="input-group">
+								<ng-select [items]="relationships"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											 
+											formControlName="relationshipId">
+								</ng-select>
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Relationship Status </label>
+							<div class="input-group">
+								<select    class="form-control" formControlName="relshipStatus">
+									<option value="c">Current</option>
+									<option value="p">Previous</option>
+									 
+								</select>
+
+								 
+									 
+							</div>
+                        </div>
+						<div class="col-sm-3 col-lg-2">
+							<label class="form-label"> Is Donor </label>
+							<div class="form-check">
+								<input formControlName="isDonor" class="form-check-input" type="checkbox"    >
+							</div>
+                        </div>
+						<div class="col-sm-3 col-lg-2">
+							<label class="form-label"> Is Influencer </label>
+							<div class="form-check">
+								<input formControlName="isInfluencer" class="form-check-input" type="checkbox"    >
+							</div>
+                        </div>
+
+					</div>
+					<hr class="mt-4">
+					<div class="row g-3" >	
+						<div class="col-sm-12">
+                            <label class="form-label"> Address </label>
+							<div class="input-group">
+								<input type="text"   ngx-gp-autocomplete  (onAddressChange)="handleAddressChange($event)"   class="form-control" formControlName="fullAddress">
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Address Line1 </label>
+							<div class="input-group">
+								<input type="text"  class="form-control" formControlName="addressLine1">
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Address Line2 </label>
+							<div class="input-group">
+								<input type="text"  class="form-control" formControlName="addressLine2">
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> City </label>
+							<div class="input-group">
+								<input type="text"  class="form-control" formControlName="city">
+									 
+							</div>
+                        </div>
+						
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> State/Province </label>
+							<div class="input-group">
+								<input type="text" readonly  class="form-control" formControlName="state">
+								<span class="input-group-text code">
+									<input type="text" class="form-control" readonly formControlName="stateCode">
+								</span>
+									 
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Country </label>
+							<div class="input-group">
+								<input type="text" readonly  class="form-control" formControlName="country">
+								<span class="input-group-text code">
+									<input type="text" class="form-control" readonly formControlName="countryCode">
+								</span>
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Postal Code </label>
+							<div class="input-group">
+								<input type="text"  class="form-control" formControlName="postalCode">
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Latitude </label>
+							<div class="input-group">
+								<input type="text"  class="form-control" formControlName="latitude">
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Longitude </label>
+							<div class="input-group">
+								<input type="text"  class="form-control" formControlName="longitude">
+									 
+							</div>
+                        </div>
+
+
+
+					</div>
+					<hr class="mt-4">
+					<div class="row g-3">
+
+
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Occupation </label>
+							<div class="input-group">
+								<ng-select [items]="occupations"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											 
+											formControlName="occupationId">
+								</ng-select>
+									 
+							</div>
+                        </div>
+
+
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Race </label>
+							<div class="input-group">
+								<ng-select [items]="races"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											 
+											formControlName="raceId">
+								</ng-select>
+									 
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Language </label>
+							<div class="input-group">
+								<ng-select [items]="languages"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											 
+											formControlName="languageId">
+								</ng-select>
+									 
+							</div>
+                        </div>
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> School Attended </label>
+							<div class="input-group">
+									<input type="text"  class="form-control" formControlName="schoolAttended">
+							</div>
+                        </div>
+
+						<div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Highest Education </label>
+							<div class="input-group">
+								<ng-select [items]="educations"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											 
+											formControlName="educationId">
+								</ng-select>
+									 
+							</div>
+                        </div>
+
+
+						<div class="col-sm-12 col-lg-12">
+                            <label class="form-label"> Hobby(ies) </label>
+							<div class="input-group">
+								<ng-select [items]="hobbies"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											[multiple]="true" 
+											formControlName="hobbiesIds">
+								</ng-select>
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-12 col-lg-12">
+                            <label class="form-label"> Interest(s) </label>
+							<div class="input-group">
+								<ng-select [items]="interests"
+											bindLabel="name"
+											bindValue="id"
+											[clearable]="false"
+											[multiple]="true" 
+											formControlName="interestIds">
+								</ng-select>
+									 
+							</div>
+                        </div>
+
+						<div class="col-sm-12 col-lg-12">
+                            <label class="form-label"> Home Center </label>
+							<div class="input-group">
+								<ng-select [items]="homeCenters"
+											bindLabel="fullAddress"
+											bindValue="id"
+											[clearable]="false"
+											 
+											formControlName="homeCenterId">
+								</ng-select>
+									 
+							</div>
+                        </div>
+						
+
+						<!-- <div class="col-sm-6 col-lg-4">
+                            <label class="form-label"> Status </label>
+							<div class="input-group">
+								<select  class="form-control" formControlName="status">
+									<option value="1"> Active </option>
+									<option value="0"> Inactive </option>
+								</select>
+							</div>
+                        </div> -->
+                       
+		  		 	</div>
+		  		 </div>
+		  		 
+		  		  
+		  		  
+		  		 
+			  		 
+		  	</div>
+		  	<div class="card-footer">
+		  		<div class="card-actions">
+		  			<button class="btn btn-sm btn-danger card-action" (click)="cancelForm()"  type="button"><i class="fa fa-times"></i>  <span class="mg-l-4"> Cancel </span> </button>
+		  			<button class="btn btn-sm btn-primary card-action" (click)="saveForm()" type="button"><i class="fa fa-save"></i>  <span class="mg-l-4"> Save </span> </button>
+		  		</div>
+		  	</div>
+			  <div class="loading" *appSpinner="loading; message: ''"></div>
+		  </div>
+
+		  <div class="card form-card" [ngClass]="isImport? '': 'hide'">
+			<div class="card-body"   >
+				 <div class="col-12 p-0 profile-form" [formGroup]="importForm">
+					<div class="col-sm-6 col-lg-4">
+						<label class="form-label"> Import Excel </label>
+						<div class="input-group">
+							<input type="file"  class="form-control" accept=".xlsx, .xls"  (change)="onFileSelected($event)">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="card-actions">
+					<button class="btn btn-sm btn-danger card-action" (click)="cancelImportForm()"  type="button"><i class="bi bi-x"></i>  <span class="mg-l-4"> Cancel </span> </button>
+					<button class="btn btn-sm btn-primary card-action" (click)="importExcel()" type="button"><i class="bi bi-cloud-upload-fill"></i>  <span class="mg-l-4"> Upload </span> </button>
+				</div>
+			</div>
+			<div class="loading" *appSpinner="importing; message: ''"></div>
+		</div>
+		
+	</div>
+</div>

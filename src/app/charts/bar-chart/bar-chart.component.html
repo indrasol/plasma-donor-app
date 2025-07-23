@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">{{title}}</h4>
+
+        <div>
+            <apx-chart *ngIf="chartOptions.dataLabels" [series]="chartOptions.series" [chart]="chartOptions.chart"
+                [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                [xaxis]="chartOptions.xaxis"></apx-chart>
+        </div>
+    </div>
+</div>
