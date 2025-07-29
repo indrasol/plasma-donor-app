@@ -16,9 +16,11 @@ export class JwtInterceptor implements HttpInterceptor {
         let currentUser = this.employeeService.getCurrentUser();
         if (currentUser && currentUser.token) {
             request = request.clone({
+                withCredentials:true,
                 setHeaders: { 
                     Authorization: `Bearer ${currentUser.token}`
-                }
+                },
+                
             });
         }
 

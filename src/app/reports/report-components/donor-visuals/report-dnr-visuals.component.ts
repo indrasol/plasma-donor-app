@@ -90,6 +90,21 @@ export class ReportDnrVisualsComponent implements OnInit {
      
   }
 
+  genders = [
+    { label: 'Male', value: 'm' },
+    { label: 'Female', value: 'f' },
+    { label: 'Transgender', value: 'n' },
+    { label: 'Neutral', value: 'n' },
+    { label: 'Others', value: 'n' }
+  ];
   
+  ageGroups = [
+    { label: '0 - 20 years', value: 20 },
+    { label: '21 - 30 years', value: 30 },
+    { label: '31 - 40 years', value: 40 },
+    { label: '41 - 60 years', value: 60 },
+    { label: '61 - 80 years', value: 80 },
+    { label: '81+ years', value: 81 }
+  ];
 
 }

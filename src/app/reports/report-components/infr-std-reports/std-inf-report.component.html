@@ -7,7 +7,7 @@
             <label class="form-label"> Home Center </label>
             <div class="input-group">
               <ng-select [items]="homeCenters" bindLabel="fullAddress" bindValue="id" 
-              [clearable]="false"
+              [clearable]="true"
               placeholder="Select a Home Center"
                 formControlName="homeCenterId" (change)="homeCenterChange($event)">
               </ng-select>
@@ -16,31 +16,33 @@
           <div class="col-sm-6 col-lg-4  mb-3">
             <label class="form-label"> Gender </label>
             <div class="input-group">
-              <select    class="form-control" formControlName="gender">
-                <option value="m">Male</option>
-                <option value="f">Female</option>
-                <option value="n">Transgender</option>
-                <option value="n">Neutral</option>
-                <option value="n">Others</option>
-              </select>
+              <ng-select [items]="genders" bindLabel="label" bindValue="value"
+              [clearable]="true"
+              placeholder="Select Gender"
+              formControlName="gender">
+              </ng-select>
             </div>
           </div>
           <div class="col-sm-6 col-lg-4  mb-3">
             <label class="form-label"> Age Group </label>
             <div class="input-group">
-              <select    class="form-control" formControlName="ageGroup">
-                <option value="20"> 0 - 20 years</option>
-                <option value="30">21 - 30 years</option>
-                <option value="40">31 - 40 years</option>
-                <option value="60">41 - 60 years</option>
-                <option value="80">61 - 80 years</option>
-                <option value="81">81+ years</option>
-              </select>
+              <ng-select [items]="ageGroups" bindLabel="label" bindValue="value"
+              [clearable]="true"
+              placeholder="Select Age Group"
+              formControlName="ageGroup">
+           </ng-select>
+
             </div>
           </div>
           <div class="col-sm-6 col-lg-4 mb-3 d-flex align-items-end">
-            <button type="button" class="btn   btn-outline-primary"  > Search </button>
+            <!-- <button type="button" class="btn   btn-outline-primary" (click)="searchResults()" > Search </button> -->
+            <button type="button" class="btn btn-outline-primary" (click)="searchResults()"> Search </button>
+            <div style="width: 20px;"></div>
+            <button type="button" class="btn btn-outline-primary" (click)="exportToExcel()">Export</button>
           </div>
+          <!-- <div class="col-sm-6 col-lg-4 mb-3 d-flex align-items-end">
+            <button type="button" class="btn   btn-outline-primary"  > Export </button>
+          </div> -->
 
         </div>
       </div>

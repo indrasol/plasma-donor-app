@@ -167,8 +167,8 @@
 							<label class="form-label"> Status <span class="text-danger">*</span></label>
 							<div class="input-group">
 								<select class="form-control" formControlName="status">
-									<option value="1"> Active </option>
-									<option value="0"> Inactive </option>
+									<option value="Active"> Active </option>
+									<option value="Inactive"> Inactive </option>
 								</select>
 								<div *ngIf="submitted && f['status'].errors" class="form-error">
 									<div *ngIf="f['status'].errors.required">Status is required</div>

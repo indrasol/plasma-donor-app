@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --open",
+    "build": "ng build --configuration=production --base-href /NuRam/PlasmaDonorApp/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -29,6 +29,7 @@
     "@types/google.maps": "^3.55.9",
     "ag-grid-angular": "^32.3.3",
     "ag-grid-community": "^32.3.3",
+    "ag-grid-enterprise": "^33.2.1",
     "apexcharts": "^3.49.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

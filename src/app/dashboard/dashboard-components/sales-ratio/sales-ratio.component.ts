@@ -47,12 +47,14 @@ export class SalesRatioComponent implements OnInit {
 
   @ViewChild("chart") chart: ChartComponent = Object.create(null);
   public salesChartOptions: Partial<salesChartOptions>;
+  public currentYear: number = new Date().getFullYear(); 
   constructor(private statService: StatService) {
     this.statService.dashboardStats.subscribe(sd=>{
       if(sd.donorSeries){
         this.prepareSeries(sd);
       }
     });
+    
 
     this.salesChartOptions = {
 
@@ -90,11 +92,23 @@ export class SalesRatioComponent implements OnInit {
       grid: {
         strokeDashArray: 3,
       },
+      // xaxis: {
+      //   categories: [
+           
+      //   ],
+      // },
       xaxis: {
         categories: [
-           
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ],
+        labels: {
+          style: {
+            fontSize: '12px'
+          }
+        }
       },
+      
       tooltip: {
         theme: 'dark'
       }
@@ -102,23 +116,28 @@ export class SalesRatioComponent implements OnInit {
   }
 
   prepareSeries(sd: any){
-    var cats = [];
+    //var cats = [];
     var ser1 = [];
     var ser2 = [];
-    for(var d of sd.donorSeries){
-      cats.push(d.title);
-      ser1.push(d.valStr);
-    }
-    for(var d of sd.infSeries){
+    // for(var d of sd.donorSeries){
+    //   cats.push(d.title);
+    //   ser1.push(d.valStr);
+    // }
+    // for(var d of sd.infSeries){
       
-      ser2.push(d.valStr);
+    //   ser2.push(d.valStr);
+    // }
+    for (let i = 0; i < 12; i++) {
+      // Assume sd.donorSeries[i] and sd.infSeries[i] exist and are sorted by month
+      ser1.push(sd.donorSeries[i]?.valStr || 0);
+      ser2.push(sd.infSeries[i]?.valStr || 0);
     }
     if(this.salesChartOptions){
 
       this.salesChartOptions.series[0].data = ser1;
       this.salesChartOptions.series[1].data = ser2;
   
-      this.salesChartOptions.xaxis.categories =cats;
+      //this.salesChartOptions.xaxis.categories =cats;
       var sco = this.salesChartOptions;
       this.salesChartOptions = JSON.parse(JSON.stringify(sco));
     }

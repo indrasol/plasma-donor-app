@@ -1,6 +1,7 @@
 export const config = {
   production: false,
-  apiUrl: "http://localhost:8080/api",
+   apiUrl:  "https://localhost:44361/api",
+  
   
   application:
   {

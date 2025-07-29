@@ -21,6 +21,7 @@ export class StdInfReportComponent implements OnInit {
   frameworkComponents: any;
   gridApi: any;
   gridColumnApi: any;
+  gridList: any = [];
 
 
 
@@ -183,6 +184,29 @@ export class StdInfReportComponent implements OnInit {
     });
   }
 
+  loadProfiles() {
+    if (this.gridApi) {
+      this.gridApi.showLoadingOverlay();
+    }
+    let frmData = this.searchForm.value;
+    frmData.isInfluencer = true;
+
+    this.statService.searchProfiles(frmData).subscribe((res: any) => {
+      if (res && res.status) {
+        this.gridList = res.data;
+      }
+
+      this.gridApi.hideOverlay();
+
+
+    });
+
+  }
+  searchResults() {
+    this.loadProfiles();
+
+  }
+
   homeCenterChange(changedData: any) {
 
     if (changedData && changedData.id) {
@@ -191,4 +215,31 @@ export class StdInfReportComponent implements OnInit {
   }
 
 
+  exportToExcel() {
+    const params = {
+      fileName: 'Influencer_Report.csv',
+    };
+  
+    if (this.gridApi) {
+      this.gridApi.exportDataAsCsv(params);
+    }
+  }
+  
+  genders = [
+    { label: 'Male', value: 'm' },
+    { label: 'Female', value: 'f' },
+    { label: 'Transgender', value: 'n' },
+    { label: 'Neutral', value: 'n' },
+    { label: 'Others', value: 'n' }
+  ];
+  
+  ageGroups = [
+    { label: '0 - 20 years', value: 20 },
+    { label: '21 - 30 years', value: 30 },
+    { label: '31 - 40 years', value: 40 },
+    { label: '41 - 60 years', value: 60 },
+    { label: '61 - 80 years', value: 80 },
+    { label: '81+ years', value: 81 }
+  ];
+ 
 }

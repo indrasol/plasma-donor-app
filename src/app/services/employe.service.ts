@@ -10,7 +10,10 @@ import { LocalStorageService } from './local-storage.service';
 export class EmployeService {
   [x: string]: any;
 
-  private apiUrl = config.apiUrl;
+  // private apiUrl = 'https://localhost:44319/api'
+  
+  private apiUrl = config.apiUrl; // Replace with your Spring Boot backend URL
+
   private currentUserSubject: BehaviorSubject<any>;
   public logOutSubject: BehaviorSubject<any>;
  
@@ -42,7 +45,7 @@ export class EmployeService {
     const loginDetails = { email, password };
     return this.http.post(apiUrl, loginDetails).pipe(map( (userRes: any)  => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-
+ 
       if(userRes.status){
         localStorage.setItem('userdetail', JSON.stringify(userRes.data));
         this.currentUserSubject.next(userRes.data);
@@ -52,6 +55,25 @@ export class EmployeService {
       return userRes;
     }));
   }
+  // loginEmployee(email: string, password: string): Observable<any> {
+  //   const apiUrl = `${this.apiUrl}/user/login`;
+  //   const loginDetails = { email, password };
+  //   const headers= {'Content-Type': 'application/json'};
+  //   console.log("Sending Login Request:", loginDetails); 
+
+  //   return this.http.post(apiUrl, loginDetails,{headers: { 'Content-Type': 'application/json' },
+  //     withCredentials: true }).pipe(map( (userRes: any)  => {
+  //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+  //     console.log("API Response:", userRes);
+  //     if(userRes?.token){
+  //       localStorage.setItem('userdetail', JSON.stringify(userRes));
+  //       this.currentUserSubject.next(userRes);
+  //     }else{
+  //       this.currentUserSubject.next({});
+  //     }
+  //     return userRes;
+  //   }));
+  // }
 
   // fetching details of all users including admin
   displayall(): Observable<any> {
@@ -90,7 +112,7 @@ export class EmployeService {
 
 
   getAllActiveUsersCount(): Observable<any> {
-    const apiurl = '${this.apiUrl}/user/activeUsersCount';
+    const apiurl = `${this.apiUrl}/user/activeUsersCount`;
     return this.http.get(apiurl)
   }
   getEmployeesCount(): Observable<any> {
