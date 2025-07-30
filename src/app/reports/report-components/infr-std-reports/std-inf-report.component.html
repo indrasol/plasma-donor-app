@@ -53,9 +53,10 @@
     <div class="col-12">
       <div class="card" style="height: calc(100vh - 130px);">
         <div class="card-body p-0 h-100">
-          <ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-balham" [rowData]="influencers"
+          <ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-balham" [rowData]="gridList"
             [rowHeight]="40" [columnDefs]="gridColDefs" [pagination]="true" [paginationPageSize]="20"
-            [cacheBlockSize]="100" [maxBlocksInCache]="10" [suppressRowClickSelection]="true"
+            [rowSelection]="'single'"
+            [suppressRowClickSelection]="true"
             [components]="frameworkComponents" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
         </div>
@@ -65,4 +66,3 @@
     <div class="loading" *appSpinner="loading;message: ''"></div>
 
   </div>
-  

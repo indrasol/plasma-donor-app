@@ -169,7 +169,7 @@ export class StdInfReportComponent implements OnInit {
       }
       this.statService.searchProfiles(frmData).subscribe((res: any) => {
         if (res.data) {
-          this.influencers = res.data;
+          this.gridList = res.data;
         }
         this.gridApi.hideOverlay();
 

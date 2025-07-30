@@ -37,7 +37,7 @@
           <div class="col-sm-6 col-lg-4  mb-3">
             <label class="form-label"> Age Group </label>
             <div class="input-group">
-              <ng-select [items]="ageGroups"bindLabel="label" bindValue="value"
+              <ng-select [items]="ageGroups" bindLabel="label" bindValue="label"
               [clearable]="true"
               placeholder="Select Age Group"
               formControlName="ageGroup">
@@ -70,11 +70,12 @@
                 [rowHeight]="40"
                 [columnDefs]="gridColDefs"
                 [pagination]="true"
-                [paginationPageSize]="20" [cacheBlockSize]="100" [maxBlocksInCache]="10"
-                [suppressRowClickSelection]="true"  
-              [components]="frameworkComponents"			     
+                [paginationPageSize]="20"
+                [rowSelection]="'single'"
+                [suppressRowClickSelection]="true"
+                [components]="frameworkComponents"
                 (gridReady)="onGridReady($event)"
-                >
+            >
             </ag-grid-angular>
           </div>
            
@@ -85,4 +86,4 @@
     
   </div>
   
-</div> 
+</div>

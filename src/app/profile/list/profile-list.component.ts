@@ -37,6 +37,9 @@ export class ProfileListComponent {
 	public importing = false;
 	public gridLoading = false;
 
+	today = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
+	minDate = { year: 1900, month: 1, day: 1 };
+
 	public occupations: any = [];
 	public relationships: any = [];
 	public races: any = [];
@@ -50,6 +53,14 @@ export class ProfileListComponent {
 	public interests: any = [];
 	selectedFile: any;
 	public submitted = false;
+	public relationshipStatus: any = [{
+		id: "c",
+		status: 'Current'
+	},
+	{
+		id: "p",
+		status: 'Previous'
+	}];
 
 
 
@@ -381,6 +392,7 @@ export class ProfileListComponent {
 		}
 
 		this.loading = true;
+		formData['dob'] = formData['dob'].year + '-' + formData['dob'].month + '-' + formData['dob'].day;
 		this.profileService.createProfile(formData).subscribe((res: any) => {
 			if (res && res.status) {
 				this.isEdit = false;
@@ -515,6 +527,4 @@ export class ProfileListComponent {
 	// 	  );
 	// 	}
 	//   }
-	  
-
 }

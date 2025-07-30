@@ -192,6 +192,17 @@ export class StdDonorReportComponent implements OnInit {
     let frmData = this.searchForm.value;
     frmData.isDonor = true;
 
+    // Handle age group filtering
+    if (frmData.ageGroup) {
+      const selectedAgeGroup = this.ageGroups.find(group => group.label === frmData.ageGroup);
+      if (selectedAgeGroup) {
+        frmData.minAge = selectedAgeGroup.min;
+        frmData.maxAge = selectedAgeGroup.max;
+      }
+      // Remove the original ageGroup value as we're now sending minAge and maxAge
+      delete frmData.ageGroup;
+    }
+
     this.statService.searchProfiles(frmData).subscribe((res: any) => {
       if (res && res.status) {
         this.gridList = res.data;
@@ -234,12 +245,12 @@ export class StdDonorReportComponent implements OnInit {
   ];
   
   ageGroups = [
-    { label: '0 - 20 years', value: 20 },
-    { label: '21 - 30 years', value: 30 },
-    { label: '31 - 40 years', value: 40 },
-    { label: '41 - 60 years', value: 60 },
-    { label: '61 - 80 years', value: 80 },
-    { label: '81+ years', value: 81 }
+    { label: '0 - 20 years', min: 0, max: 20 },
+    { label: '21 - 30 years', min: 21, max: 30 },
+    { label: '31 - 40 years', min: 31, max: 40 },
+    { label: '41 - 60 years', min: 41, max: 60 },
+    { label: '61 - 80 years', min: 61, max: 80 },
+    { label: '81+ years', min: 81, max: 999 }
   ];
 
 }

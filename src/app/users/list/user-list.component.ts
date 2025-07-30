@@ -28,6 +28,14 @@ export class UserListComponent {
 	public gridLoading = false;
 	public companyLocations: any = [];
 	public roles: any = [];
+	public status: any = [{
+		id: "1",
+		status: 'Active'
+	},
+	{
+		id: "0",
+		status: 'Inactive'
+	}];
 	public submitted = false;
 
 	gridColDefs: ColDef[] = [

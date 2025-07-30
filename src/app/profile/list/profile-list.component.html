@@ -25,18 +25,19 @@
 		 <div class="card list-card" style="height: calc(100vh - 130px);" [ngClass]="isEdit || isImport ? 'hide': ''">
 			<div class="card-body p-0 h-100">
 				<ag-grid-angular
-				    style="width: 100%; height: 100%;"
-				    class="ag-theme-balham"
-				    [rowData]="gridList"
-				    [rowHeight]="40"
-				    [columnDefs]="gridColDefs"
-				    [pagination]="true"
-				    [paginationPageSize]="20" [cacheBlockSize]="100" [maxBlocksInCache]="10"
-				    [suppressRowClickSelection]="true"  
-					[components]="frameworkComponents"			     
-				    (gridReady)="onGridReady($event)"
-				    >
-				</ag-grid-angular>
+                    style="width: 100%; height: 100%;"
+                    class="ag-theme-balham"
+                    [rowData]="gridList"
+                    [rowHeight]="40"
+                    [columnDefs]="gridColDefs"
+                    [pagination]="true"
+                    [paginationPageSize]="20"
+                    [rowSelection]="'single'"
+                    [suppressRowClickSelection]="true"
+                    [components]="frameworkComponents"
+                    (gridReady)="onGridReady($event)"
+                >
+                </ag-grid-angular>
 			</div>
 			<div *appSpinner="gridLoading; message: ''"></div>
 		  </div>
@@ -132,7 +133,7 @@
                             <label class="form-label"> Date of Birth </label>
 							<div class="input-group">
 								
-								<input  type="text" ngbDatepicker #d="ngbDatepicker"     class="form-control" formControlName="dob">
+								<input  type="text" ngbDatepicker #d="ngbDatepicker" class="form-control" formControlName="dob" [minDate]="minDate" [maxDate]="today">
 								<button class="btn btn-outline-primary bi bi-calendar" (click)="d.toggle()" type="button"></button>	 
 							</div>
                         </div>
@@ -168,12 +169,16 @@
 						<div class="col-sm-6 col-lg-4">
                             <label class="form-label"> Relationship Status </label>
 							<div class="input-group">
-								<select    class="form-control" formControlName="relshipStatus">
+								<!-- <select    class="form-control" formControlName="relshipStatus">
 									<option value="c">Current</option>
 									<option value="p">Previous</option>
-									 
-								</select>
-
+								</select> -->
+								<ng-select [items]="relationshipStatus"
+								bindLabel="status"
+								bindValue="id"
+								[clearable]="false"
+								formControlName="relshipStatus">
+					</ng-select>
 								 
 									 
 							</div>

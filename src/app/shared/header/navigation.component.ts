@@ -49,4 +49,8 @@ export class NavigationComponent implements AfterViewInit {
     this.employeService.logOut();
     
   }
+
+  goToProfile() {
+    this.router.navigate(['/my-profile']);
+  }
 }

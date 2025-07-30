@@ -10,10 +10,7 @@ import { LocalStorageService } from './local-storage.service';
 export class EmployeService {
   [x: string]: any;
 
-  // private apiUrl = 'https://localhost:44319/api'
-  
-  private apiUrl = config.apiUrl; // Replace with your Spring Boot backend URL
-
+  private apiUrl = config.apiUrl;
   private currentUserSubject: BehaviorSubject<any>;
   public logOutSubject: BehaviorSubject<any>;
  
@@ -21,14 +18,19 @@ export class EmployeService {
   userInfo : any  =null;
   // private apiUrl = '${this.apiUrl}/user/adduser'; // Replace with your Spring Boot backend URL
   constructor(private http: HttpClient, private localstorageService: LocalStorageService) { 
-
-    const cuser : any = localStorage.getItem('userdetail') || '{}';
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(cuser));
+    const cuser = localStorage.getItem('userdetail');
+    let parsedUser = null;
+    try {
+      parsedUser = cuser ? JSON.parse(cuser) : null;
+    } catch (e) {
+      parsedUser = null;
+    }
+    this.currentUserSubject = new BehaviorSubject<any>(parsedUser);
     this.logOutSubject = new BehaviorSubject<any>(null);
     this.currentUser = this.currentUserSubject.asObservable();
-    this.currentUser.subscribe(u=>{
+    this.currentUser.subscribe(u => {
       this.userInfo = u;
-    })
+    });
   }
 
   getCurrentUser() {
@@ -144,5 +146,8 @@ export class EmployeService {
     this.logOutSubject.next("loggedOut");
   }
 
+  public setCurrentUser(user: any) {
+    this.currentUserSubject.next(user);
+  }
 
 }

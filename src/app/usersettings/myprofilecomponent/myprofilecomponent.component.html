@@ -1,0 +1,82 @@
+<div class="card form-card">
+  <div class="card-body">
+    <div class="col-12 p-0" [formGroup]="infoForm">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <label class="form-label"> First Name <span class="text-danger">*</span> </label>
+          <div class="input-group">
+            <input type="text" class="form-control" formControlName="firstName" [disabled]="true">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Last Name <span class="text-danger">*</span> </label>
+          <div class="input-group">
+            <input type="text" class="form-control" formControlName="lastName" [disabled]="true">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Email Id <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <input type="text" class="form-control" formControlName="email" [disabled]="true">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Enter Password <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <input type="password" class="form-control" formControlName="password">
+            <div *ngIf="submitted && f['password'].errors" class="form-error">
+              <div *ngIf="f['password'].errors['required']">Password is required</div>
+              <div *ngIf="f['password'].errors['pattern']">Password must be valid</div>
+              <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters</div>
+              <div *ngIf="f['password'].errors['maxlength']">Password must not exceed 18 characters</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Phone Number <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <input type="text" class="form-control" formControlName="phoneNumber" [disabled]="true">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Re-enter Password <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <input type="password" class="form-control" formControlName="confirmPassword">
+            <div *ngIf="submitted && f['confirmPassword'].errors" class="form-error">
+              <div *ngIf="f['confirmPassword'].errors['required']">Re-entering password is required</div>
+              <div *ngIf="f['confirmPassword'].errors['mismatch']">Passwords do not match</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Company Location <span class="text-danger">*</span> </label>
+          <div class="input-group">
+            <ng-select [items]="companyLocations" bindLabel="fullAddress" bindValue="id" [clearable]="false" formControlName="companyLocationId" [disabled]="true"></ng-select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label">Role <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <ng-select [items]="roles" bindLabel="role" bindValue="id" [clearable]="false" formControlName="roleId" [disabled]="true"></ng-select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label class="form-label"> Status <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <select class="form-control" formControlName="status" [disabled]="true">
+              <option value="1"> Active </option>
+              <option value="0"> Inactive </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="card-actions">
+      <button class="btn btn-sm btn-danger card-action" (click)="cancelForm()" type="button"><i class="fa fa-times"></i> <span class="mg-l-4"> Cancel </span> </button>
+      <button class="btn btn-sm btn-primary card-action" (click)="saveForm()" type="button"><i class="fa fa-save"></i> <span class="mg-l-4"> Save </span> </button>
+    </div>
+  </div>
+  <div class="loading" *ngIf="loading">Saving...</div>
+</div> 
